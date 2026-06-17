@@ -120,12 +120,12 @@ jobs:
       - name: Build Docker Image
         run: |
           docker build -f ${{ inputs.dockerfile_path }} \
-            -t ${{ inputs.image_repository }}:${{ env.IMAGE_TAG }} .
+          -t ${{ secrets.DOCKER_USERNAME }}/${{ inputs.image_repository }}:${{ env.IMAGE_TAG }} .
 
-          docker tag ${{ inputs.image_repository }}:${{ env.IMAGE_TAG }} \
-            ${{ inputs.image_repository }}:latest
+          docker tag ${{ secrets.DOCKER_USERNAME }}/${{ inputs.image_repository }}:${{ env.IMAGE_TAG }} \
+          ${{ secrets.DOCKER_USERNAME }}/${{ inputs.image_repository }}:latest
 
       - name: Push Docker Image
         run: |
-          docker push ${{ inputs.image_repository }}:${{ env.IMAGE_TAG }}
-          docker push ${{ inputs.image_repository }}:latest
+          docker push ${{ secrets.DOCKER_USERNAME }}/${{ inputs.image_repository }}:${{ env.IMAGE_TAG }}
+          docker push ${{ secrets.DOCKER_USERNAME }}/${{ inputs.image_repository }}:latest
