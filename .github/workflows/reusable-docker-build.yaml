@@ -80,10 +80,11 @@ jobs:
         if: ${{ inputs.sonar_project_key != '' }}
         run: |
           ./mvnw sonar:sonar \
-          -Dsonar.projectKey=${{ inputs.sonar_project_key }} \
-          -Dsonar.organization=nikhilk7 \
-          -Dsonar.host.url=https://sonarcloud.io \
-          -Dsonar.token=${{ secrets.SONAR_TOKEN }}
+            -Dsonar.projectKey=${{ inputs.sonar_project_key }} \
+            -Dsonar.organization=nikhilk7 \
+            -Dsonar.host.url=https://sonarcloud.io \
+            -Dsonar.token=${{ secrets.SONAR_TOKEN }} \
+            -Dsonar.coverage.jacoco.xmlReportPaths=target/site/jacoco/jacoco.xml
 # Code Coverage Steps (Assignment-4)-Part-B - SonarCloud Integration End
 
       - name: Login to Docker Hub
