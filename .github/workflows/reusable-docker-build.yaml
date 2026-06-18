@@ -16,12 +16,21 @@ on:
         required: true
         type: string
 
+# Added step for Assignemt-4 SonarCloud Integration - Part-B
+      sonar_project_key:
+        required: false
+        type: string
+
     secrets:
       DOCKER_USERNAME:
         required: true
 
       DOCKER_TOKEN:
         required: true
+
+# Added step for Assignemt-4 SonarCloud Integration - Part-B
+      SONAR_TOKEN:
+        required: false
 
 jobs:
   build-and-push:
@@ -41,7 +50,7 @@ jobs:
       - name: Build Application
         run: ${{ inputs.build_command }}
       
-# Code Coverage Steps (Assignment-4)
+# Code Coverage Steps (Assignment-4)-Part-A
       - name: Run Tests with Coverage
         run: ./mvnw clean verify
 
@@ -64,7 +73,18 @@ jobs:
 
           print(f"Coverage Percentage: {coverage:.2f}%")
           EOF
-# Assignment-4 Code Coverage Steps End
+# (Assignment-4)-Part-A - Code Coverage Steps End
+
+# Code Coverage Steps (Assignment-4)-Part-B - SonarCloud Integration
+      - name: SonarCloud Analysis
+        if: ${{ inputs.sonar_project_key != '' }}
+        run: |
+          ./mvnw sonar:sonar \
+          -Dsonar.projectKey=${{ inputs.sonar_project_key }} \
+          -Dsonar.organization=nikhilk7 \
+          -Dsonar.host.url=https://sonarcloud.io \
+          -Dsonar.token=${{ secrets.SONAR_TOKEN }}
+# Code Coverage Steps (Assignment-4)-Part-B - SonarCloud Integration End
 
       - name: Login to Docker Hub
         uses: docker/login-action@v3
